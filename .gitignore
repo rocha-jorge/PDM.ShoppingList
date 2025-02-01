@@ -1,0 +1,19 @@
+# Ignorar ficheiros relacionados com o IDE
+*.iml
+.idea/
+*.DS_Store
+
+# Ignorar ficheiros relacionados com o Gradle
+.gradle/
+local.properties  # Este ficheiro contém caminhos locais do SDK e não deve ser partilhado
+
+# Ignorar ficheiros gerados durante a compilação
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Ignorar relatórios de testes e ficheiros temporários
+*.log
+*.tmp
+*.swp

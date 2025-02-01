@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "912122654771",
+    "project_id": "pdm-shoppinglist-d192e",
+    "storage_bucket": "pdm-shoppinglist-d192e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:912122654771:android:3aab80dfd6867ccf12b346",
+        "android_client_info": {
+          "package_name": "a26052.pdmshoppinglist"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGiRPXG33_uJTw2ywsKZc_EU7LgdoHKwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
