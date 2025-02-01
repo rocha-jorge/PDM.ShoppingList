@@ -5,7 +5,7 @@
 
 # Ignorar ficheiros relacionados com o Gradle
 .gradle/
-local.properties  # Este ficheiro contém caminhos locais do SDK e não deve ser partilhado
+local.properties
 
 # Ignorar ficheiros gerados durante a compilação
 build/
