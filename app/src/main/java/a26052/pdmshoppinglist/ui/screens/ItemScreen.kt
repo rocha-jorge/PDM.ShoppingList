@@ -3,9 +3,11 @@ package a26052.pdmshoppinglist.ui.screens
 import a26052.pdmshoppinglist.model.ShoppingItem
 import a26052.pdmshoppinglist.model.ShoppingList
 import a26052.pdmshoppinglist.repository.ShoppingListRepository
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -14,6 +16,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -98,20 +101,24 @@ fun ItemScreen(listId: String, navController: NavHostController) {
         )
 
         // Display Items
-        LazyColumn {
+        LazyColumn (
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             if (items.isNotEmpty()) {
                 items(items) { item ->
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp),
+                        modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         // Product Name (Takes available space)
                         Text(
                             text = item.name,
                             style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.weight(1f) // ✅ This ensures name takes available space
+                            modifier = Modifier
+                                .weight(1f)
+                                .clip(RoundedCornerShape(16.dp))
+                                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
+                                .padding(12.dp) // ✅ This ensures name takes available space
                         )
 
                         // Buttons & Quantity (Fixed Size)
