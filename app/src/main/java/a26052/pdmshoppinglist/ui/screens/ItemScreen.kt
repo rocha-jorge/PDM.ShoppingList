@@ -93,6 +93,10 @@ fun ItemScreen(listId: String, navController: NavHostController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        Text(
+            text = "Itens na lista:"
+        )
+
         // Display Items
         LazyColumn {
             if (items.isNotEmpty()) {
@@ -173,8 +177,5 @@ fun ItemScreen(listId: String, navController: NavHostController) {
                 }
             }
         }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
     }
 }
