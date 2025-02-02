@@ -32,7 +32,7 @@ class ShoppingListViewModel(
         loadShoppingLists()
     }
 
-    private fun loadShoppingLists() {
+    fun loadShoppingLists() {
         viewModelScope.launch {
             _shoppingLists.value = repository.getShoppingLists()
         }

@@ -26,6 +26,11 @@ import com.google.firebase.auth.FirebaseAuth
 fun ShoppingListScreen(navController: NavHostController, viewModel: ShoppingListViewModel = viewModel()) {
     val shoppingLists by viewModel.shoppingLists.collectAsState()
 
+    // ✅ Fetch lists when this screen is opened
+    LaunchedEffect(Unit) {
+        viewModel.loadShoppingLists()
+    }
+
     Column(
         modifier = Modifier.padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -53,6 +58,7 @@ fun ShoppingListScreen(navController: NavHostController, viewModel: ShoppingList
             text = "Adicionar uma nova lista:",
             style = MaterialTheme.typography.headlineSmall,
         )
+
         // Button to Add a new Shopping List
         var newListName by remember { mutableStateOf("") }
         OutlinedTextField(
@@ -66,6 +72,7 @@ fun ShoppingListScreen(navController: NavHostController, viewModel: ShoppingList
                 if (newListName.isNotBlank()) {
                     viewModel.addShoppingList(newListName)
                     newListName = "" // Clear input after adding
+                    viewModel.loadShoppingLists() // ✅ Fetch updated lists after adding
                 }
             },
         ) {
@@ -74,29 +81,31 @@ fun ShoppingListScreen(navController: NavHostController, viewModel: ShoppingList
 
         Text(
             text = "Selecione uma lista:",
-            modifier = Modifier
-                .padding(12.dp),
+            modifier = Modifier.padding(12.dp),
             style = MaterialTheme.typography.headlineSmall
-            )
+        )
 
-        // Display shopping lists
+        // ✅ Display shopping lists & ensure they are loaded
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(12.dp) // espacamento entre listas
+            verticalArrangement = Arrangement.spacedBy(12.dp) // espaçamento entre listas
         ) {
             items(shoppingLists) { list ->
                 ShoppingListItem(
                     name = list.name,
                     onClick = { navController.navigate("itemScreen/${list.id}") },
-                    onDelete = { viewModel.deleteShoppingList(list.id) },
+                    onDelete = {
+                        viewModel.deleteShoppingList(list.id)
+                        viewModel.loadShoppingLists() // ✅ Refresh lists after deleting
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(6.dp)
-
                 )
             }
         }
     }
 }
+
 
 @Composable
 fun ShoppingListItem(
