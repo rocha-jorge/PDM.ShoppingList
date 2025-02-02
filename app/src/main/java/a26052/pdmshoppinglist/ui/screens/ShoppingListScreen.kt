@@ -41,10 +41,13 @@ fun ShoppingListScreen(navController: NavHostController, viewModel: ShoppingList
         }
 
         Text(
-            text = "Listas de Compras",
+            text = "Listas de compras",
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(top=10.dp).padding(bottom = 10.dp)
-            )
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
+                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)) // ✅ Background color
+                .padding(12.dp)
+        )
 
         Text(
             text = "Adicionar uma nova lista:",
@@ -55,7 +58,7 @@ fun ShoppingListScreen(navController: NavHostController, viewModel: ShoppingList
         OutlinedTextField(
             value = newListName,
             onValueChange = { newListName = it },
-            label = { Text("Nome da Lista") },
+            label = { Text("Nome da lista") },
             modifier = Modifier.fillMaxWidth()
         )
         Button(
@@ -66,7 +69,7 @@ fun ShoppingListScreen(navController: NavHostController, viewModel: ShoppingList
                 }
             },
         ) {
-            Text("Adicionar Lista")
+            Text("Adicionar lista")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -82,9 +85,7 @@ fun ShoppingListScreen(navController: NavHostController, viewModel: ShoppingList
                     onDelete = { viewModel.deleteShoppingList(list.id) },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(40.dp))
-                        .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)) // transparente
-                        .padding(12.dp)
+                        .padding(6.dp)
 
                 )
             }
@@ -97,18 +98,22 @@ fun ShoppingListItem(
     name: String,
     onClick: () -> Unit,
     onDelete: () -> Unit,
-    modifier: Modifier = Modifier // passar o modifier por parametro
+    modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = modifier //  aplicar aqui o modifier
-            .clickable { onClick() },
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)) // ✅ Background color
+            .clickable { onClick() }
+            .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = name,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.weight(1f).padding(start = 8.dp)
+            modifier = Modifier.weight(1f)
         )
 
         IconButton(onClick = onDelete) {
@@ -116,4 +121,5 @@ fun ShoppingListItem(
         }
     }
 }
+
 
