@@ -4,6 +4,7 @@ import a26052.pdmshoppinglist.model.ShoppingItem
 import a26052.pdmshoppinglist.model.ShoppingList
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import com.google.firebase.auth.FirebaseAuth
 
 
 //The repository will handle:
@@ -23,19 +24,22 @@ class ShoppingListRepository {
     private val db = FirebaseFirestore.getInstance()
     private val shoppingListsCollection = db.collection("shopping_lists")
 
-    // Fetch all shopping lists
-    suspend fun getShoppingLists(): List<ShoppingList> {
-        return try {
-            shoppingListsCollection.get().await().toObjects(ShoppingList::class.java)
-        } catch (e: Exception) {
-            emptyList()
-        }
-    }
 
     // Add a new shopping list
     suspend fun addShoppingList(name: String) {
-        val list = ShoppingList(name = name)
+        val user = FirebaseAuth.getInstance().currentUser ?: return
+        val list = ShoppingList(name = name, userId = user.uid)
         shoppingListsCollection.add(list).await()
+    }
+
+    // Fetch the name of a shopping list
+    suspend fun getShoppingListName(listId: String): String {
+        return try {
+            val snapshot = shoppingListsCollection.document(listId).get().await()
+            snapshot.getString("name") ?: "Lista sem nome" //
+        } catch (e: Exception) {
+            "Erro ao carregar"
+        }
     }
 
     // Delete a shopping list
@@ -44,12 +48,15 @@ class ShoppingListRepository {
     }
 
     // Get ao nome da shopping list
-    suspend fun getShoppingListName(listId: String): String {
+    suspend fun getShoppingLists(): List<ShoppingList> {
+        val user = FirebaseAuth.getInstance().currentUser ?: return emptyList()
         return try {
-            val snapshot = shoppingListsCollection.document(listId).get().await()
-            snapshot.getString("name") ?: "Lista sem nome"
+            shoppingListsCollection
+                .whereEqualTo("userId", user.uid)
+                .get().await()
+                .toObjects(ShoppingList::class.java)
         } catch (e: Exception) {
-            "Erro ao carregar"
+            emptyList()
         }
     }
 

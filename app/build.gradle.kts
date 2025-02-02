@@ -64,7 +64,7 @@ dependencies {
     // By using the Firebase Android BoM, your app will always use compatible Firebase library versions.
     //implementation(libs.firebase.analytics)    // Google Analytics
     implementation(libs.firebase.firestore.ktx) // Firestore (Database)
-    implementation(libs.firebase.auth.ktx) // (Opcional) Authentication
+    implementation(libs.firebase.auth.ktx) // Firabase Authentication
 
     implementation(libs.androidx.compose.material.icons.extended)
 

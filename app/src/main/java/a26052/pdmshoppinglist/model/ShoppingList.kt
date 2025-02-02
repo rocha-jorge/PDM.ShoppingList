@@ -12,5 +12,5 @@ import com.google.firebase.firestore.DocumentId
 data class ShoppingList(
     @DocumentId val id: String = "",
     val name: String = "",
-    val createdAt: Long = System.currentTimeMillis()
+    val userId: String = ""
 )
