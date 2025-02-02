@@ -43,15 +43,28 @@ class ShoppingListRepository {
         shoppingListsCollection.document(id).delete().await()
     }
 
+    // Get ao nome da shopping list
+    suspend fun getShoppingListName(listId: String): String {
+        return try {
+            val snapshot = shoppingListsCollection.document(listId).get().await()
+            snapshot.getString("name") ?: "Lista sem nome"
+        } catch (e: Exception) {
+            "Erro ao carregar"
+        }
+    }
+
     // Fetch all items for a shopping list
     suspend fun getShoppingItems(listId: String): List<ShoppingItem> {
         return try {
             shoppingListsCollection.document(listId).collection("items")
-                .get().await().toObjects(ShoppingItem::class.java)
+                .get().await()
+                .toObjects(ShoppingItem::class.java)
+                .filter { it.name.isNotBlank() } // ✅ Filter items with a valid name
         } catch (e: Exception) {
             emptyList()
         }
     }
+
 
     // Add an item to a shopping list
     suspend fun addShoppingItem(listId: String, name: String, quantity: Int) {
@@ -70,4 +83,13 @@ class ShoppingListRepository {
         shoppingListsCollection.document(listId).collection("items")
             .document(itemId).delete().await()
     }
+
+    // Atualizar a quantidade de um item na lista de compras
+    suspend fun updateItemQuantity(listId: String, itemId: String, newQuantity: Int) {
+        shoppingListsCollection.document(listId).collection("items")
+            .document(itemId)
+            .update("quantity", newQuantity).await()
+    }
+
+
 }

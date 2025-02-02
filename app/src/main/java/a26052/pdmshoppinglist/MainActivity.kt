@@ -1,47 +1,45 @@
 package a26052.pdmshoppinglist
 
+import a26052.pdmshoppinglist.ui.screens.ItemScreen
+import a26052.pdmshoppinglist.ui.screens.ShoppingListScreen
+import a26052.pdmshoppinglist.repository.ShoppingListRepository
+import a26052.pdmshoppinglist.viewmodel.ShoppingListViewModel
+import a26052.pdmshoppinglist.viewmodel.ShoppingListViewModelFactory
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import a26052.pdmshoppinglist.ui.theme.PDMShoppingListTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
+        // Create Repository
+        val repository = ShoppingListRepository()
+
+        // Create ViewModel using Factory
+        val factory = ShoppingListViewModelFactory(repository)
+        val viewModel = ViewModelProvider(this, factory).get(ShoppingListViewModel::class.java)
+
         setContent {
             PDMShoppingListTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+
+                NavHost(navController = navController, startDestination = "shoppingList") {
+                    composable("shoppingList") {
+                        ShoppingListScreen(navController, viewModel)
+                    }
+                    composable("itemScreen/{listId}") { backStackEntry ->
+                        val listId = backStackEntry.arguments?.getString("listId") ?: ""
+                        ItemScreen(listId, navController)
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    PDMShoppingListTheme {
-        Greeting("Android")
     }
 }

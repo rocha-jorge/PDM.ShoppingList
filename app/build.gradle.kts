@@ -10,12 +10,12 @@ plugins {
 
 android {
     namespace = "a26052.pdmshoppinglist"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "a26052.pdmshoppinglist"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -59,14 +59,14 @@ dependencies {
     // FIREBASE
     // https://firebase.google.com/docs/android/setup#available-libraries
     // Import the Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:33.8.0"))
-    // TODO: Add the dependencies for Firebase products you want to use
+    implementation(platform(libs.firebase.bom))
     // When using the BoM, don't specify versions in Firebase dependencies
     // By using the Firebase Android BoM, your app will always use compatible Firebase library versions.
-    implementation("com.google.firebase:firebase-analytics")    // Google Analytics
-    implementation("com.google.firebase:firebase-firestore-ktx") // Firestore (Database)
-    implementation("com.google.firebase:firebase-auth-ktx") // (Opcional) Authentication
+    //implementation(libs.firebase.analytics)    // Google Analytics
+    implementation(libs.firebase.firestore.ktx) // Firestore (Database)
+    implementation(libs.firebase.auth.ktx) // (Opcional) Authentication
 
+    implementation(libs.androidx.compose.material.icons.extended)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -76,6 +76,9 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose) // ViewModel
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -83,4 +86,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
 }
