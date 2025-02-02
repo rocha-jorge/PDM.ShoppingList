@@ -72,7 +72,12 @@ fun ShoppingListScreen(navController: NavHostController, viewModel: ShoppingList
             Text("Adicionar lista")
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Selecione uma lista:",
+            modifier = Modifier
+                .padding(12.dp),
+            style = MaterialTheme.typography.headlineSmall
+            )
 
         // Display shopping lists
         LazyColumn(
